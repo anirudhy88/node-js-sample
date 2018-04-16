@@ -7,7 +7,7 @@ build:
       - npm-install   
    
 push-2-docker:
-  box: nginx:latest
+  box: node:latest
    steps:
      - script:
          name: mv the files required and clean image
