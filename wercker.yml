@@ -8,6 +8,18 @@ build:
    
 push-2-docker:
    steps:
+     - script:
+         name: mv the files required and clean image
+         # include to install packages
+         # make internals avail for next step
+         code: |
+           cd $WERCKER_SOURCE_DIR
+           mv /pipeline/source/Procfile /usr/share/
+           mv /pipeline/source/README.md /usr/share/
+           mv /pipeline/source/app.json /usr/share/
+           mv /pipeline/source/index.js /usr/share/
+           mv /pipeline/source/package-lock.json /usr/share/
+           mv /pipeline/source/public/node.svg /usr/share/public
      - internal/docker-push:
          username: $DOCKER_USERNAME
          password: $DOCKER_PASSWORD
