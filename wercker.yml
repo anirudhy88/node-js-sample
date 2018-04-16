@@ -4,9 +4,7 @@ build:
    # The steps that will  be executed on  build
    # Steps make up the action in your pipeline
    steps:
-      - npm-install
-      - npm-start
-   
+      - npm-install   
    
 push-2-docker:
    steps:
