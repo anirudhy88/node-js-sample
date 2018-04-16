@@ -19,7 +19,6 @@ push-2-docker:
            mv /pipeline/source/app.json /usr/share/node-js-sample
            mv /pipeline/source/index.js /usr/share/node-js-sample
            mv /pipeline/source/package-lock.json /usr/share/node-js-sample
-           mv /pipeline/source/public/node.svg /usr/share/node-js-sample/public
      - internal/docker-push:
          username: $DOCKER_USERNAME
          password: $DOCKER_PASSWORD
