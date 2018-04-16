@@ -14,12 +14,12 @@ push-2-docker:
          # make internals avail for next step
          code: |
            cd $WERCKER_SOURCE_DIR
-           mv /pipeline/source/Procfile /usr/share/
-           mv /pipeline/source/README.md /usr/share/
-           mv /pipeline/source/app.json /usr/share/
-           mv /pipeline/source/index.js /usr/share/
-           mv /pipeline/source/package-lock.json /usr/share/
-           mv /pipeline/source/public/node.svg /usr/share/public
+           mv /pipeline/source/Procfile /usr/share/node-js-sample
+           mv /pipeline/source/README.md /usr/share/node-js-sample
+           mv /pipeline/source/app.json /usr/share/node-js-sample
+           mv /pipeline/source/index.js /usr/share/node-js-sample
+           mv /pipeline/source/package-lock.json /usr/share/node-js-sample
+           mv /pipeline/source/public/node.svg /usr/share/node-js-sample/public
      - internal/docker-push:
          username: $DOCKER_USERNAME
          password: $DOCKER_PASSWORD
