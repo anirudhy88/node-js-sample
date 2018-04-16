@@ -24,7 +24,7 @@ push-2-docker:
          password: $DOCKER_PASSWORD
          # we want to push both the release image and as the latest
          tag: dev-$WERCKER_GIT_COMMIT latest
-         repository: anirudhy88/learningwercker
+         repository: anirudhy88/nodejsapp
          registry: https://hub.docker.com
          ports: 5000
          
