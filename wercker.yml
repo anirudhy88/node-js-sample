@@ -1,0 +1,53 @@
+box: node:latest
+ 
+build:
+   # The steps that will  be executed on  build
+   # Steps make up the action in your pipeline
+   steps:
+      - npm-install
+      - npm-start
+   
+   
+push-2-docker:
+   steps:
+     - internal/docker-push:
+         username: $DOCKER_USERNAME
+         password: $DOCKER_PASSWORD
+         # we want to push both the release image and as the latest
+         tag: dev-$WERCKER_GIT_COMMIT latest
+         repository: anirudhy88/learningwercker
+         registry: https://hub.docker.com
+         ports: 5000
+         
+deploy-dev-qpp2:
+   box: node:latest
+   steps:
+     - wercker/add-ssh-key:
+         keyname: DOCKER_AWS_DEV
+     - add-to-known_hosts:
+         hostname: $DEV_REMOTE_HOST
+     - script:
+         name: Pull newest docker images
+         code: |
+           ssh $DEV_REMOTE_USER@$DEV_REMOTE_HOST sudo docker pull anirudhy88/learningwercker
+     - script:
+         name: Stop all running containers
+         code: |
+           ssh $DEV_REMOTE_USER@$DEV_REMOTE_HOST sudo docker stop test-container || echo ‘failed to stop running container’
+     - script:
+         name: Remove stopped service/containers
+         code: |
+           ssh $DEV_REMOTE_USER@$DEV_REMOTE_HOST sudo docker rm test-container || echo ‘failed to remove stopped container’
+     - script:
+         name: Remove Image behind all service/containers.
+         code: |
+           ssh $DEV_REMOTE_USER@$DEV_REMOTE_HOST sudo docker rmi anirudhy88/learningwercker:current || echo ‘failed to remove image behind stopped container’
+     - script:
+         name: Tag the pulled image
+         code: |
+           ssh $DEV_REMOTE_USER@$DEV_REMOTE_HOST sudo docker tag anirudhy88/learningwercker:latest anirudhy88/learningwercker:current
+     - script:
+         name: Start all services/containers
+         code: |
+           ssh $DEV_REMOTE_USER@$DEV_REMOTE_HOST sudo docker container run --detach -p 5000:5000 --name test-container anirudhy88/learningwercker:current
+ 
